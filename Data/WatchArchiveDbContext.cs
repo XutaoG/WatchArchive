@@ -43,6 +43,9 @@ public class WatchArchiveDbContext(DbContextOptions<WatchArchiveDbContext> optio
     {
         base.OnModelCreating(modelBuilder);
 
+        // Enable Postgres citext extension
+        modelBuilder.HasPostgresExtension("citext");
+
         PopulateUsers(modelBuilder);
         PopulateCategories(modelBuilder);
     }

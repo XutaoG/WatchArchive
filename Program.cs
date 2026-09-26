@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WatchArchive.Server.Data;
+using WatchArchive.Server.Exceptions;
 using WatchArchive.Server.Mappings;
 using WatchArchive.Server.Models;
 using WatchArchive.Server.Repositories.CategoryRepo;
@@ -65,9 +66,16 @@ builder
 // JWT Authorization
 builder.Services.AddAuthorization();
 
-// Add Services
+// Add Mappers
 builder.Services.AddAutoMapper(cfg => { }, typeof(AutoMapperProfile));
+
+// Add Exception Handlers
+builder.Services.AddExceptionHandler<PostgresDbExceptionHandler>();
+
+// Add Services
 builder.Services.AddScoped<PasswordHasher<User>>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddSingleton<IAppConfiguration, AppConfiguration>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IPasswordHashService, PasswordHashService>();
@@ -82,6 +90,9 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
