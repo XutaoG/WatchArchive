@@ -12,15 +12,15 @@ public class SqlUserRepository(
 {
     public async Task<User?> GetById(Guid id)
     {
-        return await waDbContext.Users.Where((u) => u.Id == id).FirstOrDefaultAsync();
+        return await waDbContext.Users.FirstOrDefaultAsync((u) => u.Id == id);
     }
 
     public async Task<User?> Create(User user)
     {
         // Check if user with same username already exists
-        User? foundUser = await waDbContext
-            .Users.Where((u) => EF.Functions.ILike(u.Username, user.Username))
-            .FirstOrDefaultAsync();
+        User? foundUser = await waDbContext.Users.FirstOrDefaultAsync(
+            (u) => EF.Functions.ILike(u.Username, user.Username)
+        );
 
         if (foundUser != null)
         {
@@ -35,9 +35,9 @@ public class SqlUserRepository(
 
     public async Task<User?> AuthenticateUser(string username, string password)
     {
-        User? foundUser = await waDbContext
-            .Users.Where((u) => EF.Functions.ILike(u.Username, username))
-            .FirstOrDefaultAsync();
+        User? foundUser = await waDbContext.Users.FirstOrDefaultAsync(
+            (u) => EF.Functions.ILike(u.Username, username)
+        );
 
         // Check user existence
         if (foundUser == null)
