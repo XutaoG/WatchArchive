@@ -44,6 +44,7 @@ public class WatchArchiveDbContext(DbContextOptions<WatchArchiveDbContext> optio
         base.OnModelCreating(modelBuilder);
 
         PopulateUsers(modelBuilder);
+        PopulateCategories(modelBuilder);
     }
 
     private static void PopulateUsers(ModelBuilder modelBuilder)
@@ -60,5 +61,41 @@ public class WatchArchiveDbContext(DbContextOptions<WatchArchiveDbContext> optio
                     CreatedAt = DateTime.SpecifyKind(new DateTime(2026, 1, 1), DateTimeKind.Utc),
                 }
             );
+    }
+
+    private static void PopulateCategories(ModelBuilder modelBuilder)
+    {
+        modelBuilder
+            .Entity<Category>()
+            .HasData([
+                new Category()
+                {
+                    Id = Guid.Parse("db9b5c46-2f5f-4fd4-8e86-8a7cf34458ed"),
+                    Name = "Movie",
+                    UserId = Guid.Parse("34bd8f63-1ec7-47ec-9f7f-c5a9646369d1"),
+                    User = null!,
+                },
+                new Category()
+                {
+                    Id = Guid.Parse("777f65af-997b-4aff-bf13-dc15738e3efe"),
+                    Name = "TV Show",
+                    UserId = Guid.Parse("34bd8f63-1ec7-47ec-9f7f-c5a9646369d1"),
+                    User = null!,
+                },
+                new Category()
+                {
+                    Id = Guid.Parse("ff336c33-fcd6-48c6-b0ee-aef243cff897"),
+                    Name = "Anime",
+                    UserId = Guid.Parse("34bd8f63-1ec7-47ec-9f7f-c5a9646369d1"),
+                    User = null!,
+                },
+                new Category()
+                {
+                    Id = Guid.Parse("81668a4a-412d-4aa0-8ec1-4c11509b51bc"),
+                    Name = "Documentary",
+                    UserId = Guid.Parse("34bd8f63-1ec7-47ec-9f7f-c5a9646369d1"),
+                    User = null!,
+                },
+            ]);
     }
 }
