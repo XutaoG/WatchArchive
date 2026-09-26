@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using WatchArchive.Server.Data;
 using WatchArchive.Server.Mappings;
 using WatchArchive.Server.Models;
+using WatchArchive.Server.Repositories.CategoryRepo;
 using WatchArchive.Server.Repositories.UserRepo;
 using WatchArchive.Server.Repositories.UserSessionRepo;
 using WatchArchive.Server.Services;
@@ -75,6 +76,7 @@ builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 // Add Repositories
 builder.Services.AddScoped<IUserRepository, SqlUserRepository>();
 builder.Services.AddScoped<IUserSessionRepository, SqlUserSessionRepository>();
+builder.Services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
 
 builder.Services.AddOpenApi();
 
