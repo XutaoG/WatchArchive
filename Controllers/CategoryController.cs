@@ -54,6 +54,14 @@ public class CategoryController(ICategoryRepository categoryRepository, IMapper 
         Category newCategory = mapper.Map<Category>(req);
         newCategory.UserId = userId;
 
+        // Check if category already exists
+        bool exists = await categoryRepository.ExistsByNameAndUserId(userId, newCategory.Name);
+        if (exists)
+        {
+            return Conflict();
+        }
+
+        // Add new category
         Category foundCategory = await categoryRepository.Create(newCategory);
         CategoryResponse res = mapper.Map<CategoryResponse>(foundCategory);
 

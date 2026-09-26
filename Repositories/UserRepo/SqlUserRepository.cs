@@ -17,17 +17,6 @@ public class SqlUserRepository(
 
     public async Task<User?> Create(User user)
     {
-        // Check if user with same username already exists
-        User? foundUser = await waDbContext.Users.FirstOrDefaultAsync(
-            (u) => EF.Functions.ILike(u.Username, user.Username)
-        );
-
-        if (foundUser != null)
-        {
-            return null;
-        }
-
-        // Add user
         await waDbContext.Users.AddAsync(user);
         await waDbContext.SaveChangesAsync();
         return user;
@@ -52,5 +41,10 @@ public class SqlUserRepository(
         }
 
         return null;
+    }
+
+    public async Task<bool> ExistsByUsername(string username)
+    {
+        return await waDbContext.Users.AnyAsync((u) => EF.Functions.ILike(u.Username, username));
     }
 }

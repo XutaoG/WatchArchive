@@ -13,4 +13,6 @@ public interface ICategoryRepository
     Task<Category?> UpdateById(Guid id, Category category);
 
     Task<Category?> DeleteById(Guid id);
+
+    Task<bool> ExistsByNameAndUserId(Guid userId, string name);
 }

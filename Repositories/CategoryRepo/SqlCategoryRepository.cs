@@ -53,4 +53,11 @@ public class SqlCategoryRepository(WatchArchiveDbContext waDbContext) : ICategor
 
         return foundCategory;
     }
+
+    public async Task<bool> ExistsByNameAndUserId(Guid userId, string name)
+    {
+        return await waDbContext.Categories.AnyAsync(c =>
+            c.UserId == userId && EF.Functions.ILike(c.Name, name)
+        );
+    }
 }

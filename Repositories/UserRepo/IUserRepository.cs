@@ -9,4 +9,6 @@ public interface IUserRepository
     Task<User?> Create(User user);
 
     Task<User?> AuthenticateUser(string username, string password);
+
+    Task<bool> ExistsByUsername(string username);
 }
