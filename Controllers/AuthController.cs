@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WatchArchive.Server.DTOs.RequestDTOs;
 using WatchArchive.Server.DTOs.ResponseDTOs;
+using WatchArchive.Server.Extensions;
 using WatchArchive.Server.Models;
 using WatchArchive.Server.Repositories.UserRepo;
 using WatchArchive.Server.Repositories.UserSessionRepo;
@@ -76,14 +77,8 @@ public class AuthController(
     [HttpGet("user")]
     public async Task<IActionResult> GetUser()
     {
-        Guid? userId = jwtService.GetUserIdFromClaims([.. HttpContext.User.Claims]);
-
-        if (userId == null)
-        {
-            return Unauthorized();
-        }
-
-        User? foundUser = await userRepository.GetById((Guid)userId);
+        Guid userId = base.User.GetUserId();
+        User? foundUser = await userRepository.GetById(userId);
 
         if (foundUser == null)
         {
