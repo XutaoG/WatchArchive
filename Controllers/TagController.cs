@@ -74,15 +74,8 @@ public class TagController(ITagRepository tagRepository, IMapper mapper) : Contr
     )
     {
         Guid userId = User.GetUserId();
-
-        Tag? foundTag = await tagRepository.GetByUserIdAndId(userId, id);
-        if (foundTag == null)
-        {
-            return NotFound();
-        }
-
         Tag newTag = mapper.Map<Tag>(req);
-        Tag? updatedTag = await tagRepository.UpdateById(id, newTag);
+        Tag? updatedTag = await tagRepository.UpdateByUserIdAndId(userId, id, newTag);
         if (updatedTag == null)
         {
             return NotFound();
@@ -98,13 +91,12 @@ public class TagController(ITagRepository tagRepository, IMapper mapper) : Contr
     {
         Guid userId = User.GetUserId();
 
-        Tag? foundTag = await tagRepository.GetByUserIdAndId(userId, id);
+        Tag? foundTag = await tagRepository.DeleteByUserIdAndId(userId, id);
         if (foundTag == null)
         {
             return NotFound();
         }
 
-        await tagRepository.DeleteById(id);
         return NoContent();
     }
 }

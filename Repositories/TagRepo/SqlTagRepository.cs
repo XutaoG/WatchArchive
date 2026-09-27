@@ -19,19 +19,14 @@ public class SqlTagRepository(WatchArchiveDbContext waDbContext) : ITagRepositor
         return await waDbContext.Tags.Where(t => t.UserId == userId).ToListAsync();
     }
 
-    public async Task<Tag?> GetById(Guid id)
-    {
-        return await waDbContext.Tags.FirstOrDefaultAsync(t => t.Id == id);
-    }
-
     public async Task<Tag?> GetByUserIdAndId(Guid userId, Guid id)
     {
         return await waDbContext.Tags.FirstOrDefaultAsync(t => t.UserId == userId && t.Id == id);
     }
 
-    public async Task<Tag?> UpdateById(Guid id, Tag tag)
+    public async Task<Tag?> UpdateByUserIdAndId(Guid userId, Guid id, Tag tag)
     {
-        Tag? foundTag = await GetById(id);
+        Tag? foundTag = await GetByUserIdAndId(userId, id);
 
         if (foundTag == null)
         {
@@ -44,9 +39,9 @@ public class SqlTagRepository(WatchArchiveDbContext waDbContext) : ITagRepositor
         return foundTag;
     }
 
-    public async Task<Tag?> DeleteById(Guid id)
+    public async Task<Tag?> DeleteByUserIdAndId(Guid userId, Guid id)
     {
-        Tag? foundTag = await GetById(id);
+        Tag? foundTag = await GetByUserIdAndId(userId, id);
 
         if (foundTag == null)
         {

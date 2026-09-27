@@ -8,13 +8,11 @@ public interface ITagRepository
 
     Task<List<Tag>> GetAllByUserId(Guid userId);
 
-    Task<Tag?> GetById(Guid id);
-
     Task<Tag?> GetByUserIdAndId(Guid userId, Guid id);
 
-    Task<Tag?> UpdateById(Guid id, Tag tag);
+    Task<Tag?> UpdateByUserIdAndId(Guid userId, Guid id, Tag tag);
 
-    Task<Tag?> DeleteById(Guid id);
+    Task<Tag?> DeleteByUserIdAndId(Guid userId, Guid id);
 
     Task<bool> ExistsByNameAndUserId(Guid userId, string name);
 
