@@ -75,15 +75,13 @@ public class CategoryController(ICategoryRepository categoryRepository, IMapper 
     )
     {
         Guid userId = User.GetUserId();
-
-        Category? foundCategory = await categoryRepository.GetByUserIdAndId(userId, id);
-        if (foundCategory == null)
-        {
-            return NotFound();
-        }
-
         Category newCategory = mapper.Map<Category>(req);
-        Category? updatedCategory = await categoryRepository.UpdateById(id, newCategory);
+        Category? updatedCategory = await categoryRepository.UpdateByUserIdAndId(
+            userId,
+            id,
+            newCategory
+        );
+
         if (updatedCategory == null)
         {
             return NotFound();
@@ -99,13 +97,12 @@ public class CategoryController(ICategoryRepository categoryRepository, IMapper 
     {
         Guid userId = User.GetUserId();
 
-        Category? foundCategory = await categoryRepository.GetByUserIdAndId(userId, id);
+        Category? foundCategory = await categoryRepository.DeleteByUserIdAndId(userId, id);
         if (foundCategory == null)
         {
             return NotFound();
         }
 
-        await categoryRepository.DeleteById(id);
         return NoContent();
     }
 }

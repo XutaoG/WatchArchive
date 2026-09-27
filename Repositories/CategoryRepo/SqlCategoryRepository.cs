@@ -19,11 +19,6 @@ public class SqlCategoryRepository(WatchArchiveDbContext waDbContext) : ICategor
         return await waDbContext.Categories.Where(c => c.UserId == userId).ToListAsync();
     }
 
-    public async Task<Category?> GetById(Guid id)
-    {
-        return await waDbContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
-    }
-
     public async Task<Category?> GetByUserIdAndId(Guid userId, Guid id)
     {
         return await waDbContext.Categories.FirstOrDefaultAsync(c =>
@@ -31,9 +26,9 @@ public class SqlCategoryRepository(WatchArchiveDbContext waDbContext) : ICategor
         );
     }
 
-    public async Task<Category?> UpdateById(Guid id, Category category)
+    public async Task<Category?> UpdateByUserIdAndId(Guid userId, Guid id, Category category)
     {
-        Category? foundCategory = await GetById(id);
+        Category? foundCategory = await GetByUserIdAndId(userId, id);
 
         if (foundCategory == null)
         {
@@ -46,9 +41,9 @@ public class SqlCategoryRepository(WatchArchiveDbContext waDbContext) : ICategor
         return foundCategory;
     }
 
-    public async Task<Category?> DeleteById(Guid id)
+    public async Task<Category?> DeleteByUserIdAndId(Guid userId, Guid id)
     {
-        Category? foundCategory = await GetById(id);
+        Category? foundCategory = await GetByUserIdAndId(userId, id);
 
         if (foundCategory == null)
         {
