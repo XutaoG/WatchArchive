@@ -14,7 +14,7 @@ public class SqlCategoryRepository(WatchArchiveDbContext waDbContext) : ICategor
         return category;
     }
 
-    public async Task<List<Category>> GetByUserId(Guid userId)
+    public async Task<List<Category>> GetAllByUserId(Guid userId)
     {
         return await waDbContext.Categories.Where(c => c.UserId == userId).ToListAsync();
     }
@@ -22,6 +22,13 @@ public class SqlCategoryRepository(WatchArchiveDbContext waDbContext) : ICategor
     public async Task<Category?> GetById(Guid id)
     {
         return await waDbContext.Categories.FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    public async Task<Category?> GetByUserIdAndId(Guid userId, Guid id)
+    {
+        return await waDbContext.Categories.FirstOrDefaultAsync(c =>
+            c.UserId == userId && c.Id == id
+        );
     }
 
     public async Task<Category?> UpdateById(Guid id, Category category)
@@ -59,5 +66,12 @@ public class SqlCategoryRepository(WatchArchiveDbContext waDbContext) : ICategor
         return await waDbContext.Categories.AnyAsync(c =>
             c.UserId == userId && EF.Functions.ILike(c.Name, name)
         );
+    }
+
+    public async Task<List<Category>> GetAllByUserIdAndIds(Guid userId, List<Guid> ids)
+    {
+        return await waDbContext
+            .Categories.Where(c => ids.Contains(c.Id) && c.UserId == userId)
+            .ToListAsync();
     }
 }

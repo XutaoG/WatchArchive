@@ -1,16 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace WatchArchive.Server.Models;
 
 [Table("tags")]
+[Index(nameof(UserId), nameof(Name), IsUnique = true)]
 public class Tag
 {
     [Key]
     [Column("id")]
     public Guid Id { get; set; }
 
-    [Column("name")]
+    [Column("name", TypeName = "citext")]
     [MaxLength(32)]
     public required string Name { get; set; }
 

@@ -8,6 +8,8 @@ using WatchArchive.Server.Exceptions;
 using WatchArchive.Server.Mappings;
 using WatchArchive.Server.Models;
 using WatchArchive.Server.Repositories.CategoryRepo;
+using WatchArchive.Server.Repositories.RatedEntryRepo;
+using WatchArchive.Server.Repositories.TagRepo;
 using WatchArchive.Server.Repositories.UserRepo;
 using WatchArchive.Server.Repositories.UserSessionRepo;
 using WatchArchive.Server.Services;
@@ -85,6 +87,8 @@ builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<IUserRepository, SqlUserRepository>();
 builder.Services.AddScoped<IUserSessionRepository, SqlUserSessionRepository>();
 builder.Services.AddScoped<ICategoryRepository, SqlCategoryRepository>();
+builder.Services.AddScoped<ITagRepository, SqlTagRepository>();
+builder.Services.AddScoped<IRatedEntryRepository, SqlRatedEntryRepository>();
 
 builder.Services.AddOpenApi();
 

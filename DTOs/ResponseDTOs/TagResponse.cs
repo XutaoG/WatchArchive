@@ -1,6 +1,6 @@
 namespace WatchArchive.Server.DTOs.ResponseDTOs;
 
-public class CategoryResponse
+public class TagResponse
 {
     public Guid Id { get; set; }
 

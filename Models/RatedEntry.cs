@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace WatchArchive.Server.Models;
 
 [Table("rated_entries")]
+[Index(nameof(ThumbnailId), IsUnique = true)]
 public class RatedEntry
 {
     [Key]
@@ -12,7 +14,7 @@ public class RatedEntry
 
     [Column("name")]
     [MaxLength(128)]
-    public required string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     [Column("overall_rating", TypeName = "decimal(3, 1)")]
     public decimal OverallRating { get; set; }
@@ -21,13 +23,7 @@ public class RatedEntry
     [Column("thumbnail_id")]
     public Guid ThumbnailId { get; set; }
 
-    public required Thumbnail Thumbnail { get; set; }
-
-    [ForeignKey(nameof(Category))]
-    [Column("category_id")]
-    public Guid? CategoryId { get; set; }
-
-    public Category? Category { get; set; }
+    public Thumbnail Thumbnail { get; set; } = null!;
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
@@ -37,7 +33,11 @@ public class RatedEntry
 
     [ForeignKey(nameof(User))]
     [Column("user_id")]
-    public required Guid UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public required User User { get; set; }
+    public User User { get; set; } = null!;
+
+    public ICollection<CategoryEntry> CategoryEntries { get; set; } = [];
+
+    public ICollection<TagEntry> TagEntries { get; set; } = [];
 }

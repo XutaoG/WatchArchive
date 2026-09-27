@@ -20,7 +20,7 @@ public class CategoryController(ICategoryRepository categoryRepository, IMapper 
     {
         Guid userId = User.GetUserId();
 
-        List<Category> categories = await categoryRepository.GetByUserId((Guid)userId);
+        List<Category> categories = await categoryRepository.GetAllByUserId(userId);
         List<CategoryResponse> res = mapper.Map<List<CategoryResponse>>(categories);
 
         return Ok(res);
@@ -31,8 +31,8 @@ public class CategoryController(ICategoryRepository categoryRepository, IMapper 
     {
         Guid userId = User.GetUserId();
 
-        Category? foundCategory = await categoryRepository.GetById(id);
-        if (foundCategory == null || foundCategory.UserId != userId)
+        Category? foundCategory = await categoryRepository.GetByUserIdAndId(userId, id);
+        if (foundCategory == null)
         {
             return NotFound();
         }
@@ -76,8 +76,8 @@ public class CategoryController(ICategoryRepository categoryRepository, IMapper 
     {
         Guid userId = User.GetUserId();
 
-        Category? foundCategory = await categoryRepository.GetById(id);
-        if (foundCategory == null || foundCategory.UserId != userId)
+        Category? foundCategory = await categoryRepository.GetByUserIdAndId(userId, id);
+        if (foundCategory == null)
         {
             return NotFound();
         }
@@ -99,8 +99,8 @@ public class CategoryController(ICategoryRepository categoryRepository, IMapper 
     {
         Guid userId = User.GetUserId();
 
-        Category? foundCategory = await categoryRepository.GetById(id);
-        if (foundCategory == null || foundCategory.UserId != userId)
+        Category? foundCategory = await categoryRepository.GetByUserIdAndId(userId, id);
+        if (foundCategory == null)
         {
             return NotFound();
         }

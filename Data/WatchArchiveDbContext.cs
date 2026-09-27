@@ -17,6 +17,8 @@ public class WatchArchiveDbContext(DbContextOptions<WatchArchiveDbContext> optio
 
     public required DbSet<Category> Categories { get; set; }
 
+    public required DbSet<CategoryEntry> CategoryEntries { get; set; }
+
     public required DbSet<Tag> Tags { get; set; }
 
     public required DbSet<TagEntry> TagEntries { get; set; }
@@ -46,6 +48,7 @@ public class WatchArchiveDbContext(DbContextOptions<WatchArchiveDbContext> optio
         // Enable Postgres citext extension
         modelBuilder.HasPostgresExtension("citext");
 
+        // Seed data
         PopulateUsers(modelBuilder);
         PopulateCategories(modelBuilder);
     }
